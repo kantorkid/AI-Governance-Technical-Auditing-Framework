@@ -85,7 +85,7 @@ This assessment maps to the four core NIST AI RMF functions:
 
 **Finding:** The baseline model is highly vulnerable to adversarial attack. A targeted FGSM perturbation with epsilon=0.1 — invisible to the human eye — reduced accuracy from 65.5% to 14.5%. This represents an extreme security risk in any deployment context where adversarial manipulation is possible.
 
-Adversarial training successfully defended against the specific FGSM attack (100% accuracy on adversarial examples) but introduced a clean accuracy tradeoff (57.5% vs 65.5%), illustrating the fundamental robustness-utility tension governance frameworks must account for.
+Adversarial training recovered accuracy to 100% against the specific FGSM attack tested (epsilon=0.1), at a clean-accuracy cost (57.5% vs 65.5%). This measures robustness to a single known attack type, not general robustness — performance against unseen attacks such as PGD or Carlini-Wagner was not evaluated and would likely be substantially lower (see Limitations). It illustrates the robustness-utility tension governance frameworks must explicitly address.
 
 ---
 
@@ -132,7 +132,7 @@ LIME analysis identified that the model primarily relies on facial edges, struct
 
 ## Regulatory Mapping
 
-### EU AI Act (Enforcement: August 2, 2026)
+### EU AI Act (high-risk obligations in force as of August 2, 2026)
 Facial recognition systems used in high-risk contexts (hiring, law enforcement, education) are classified as high-risk AI systems under Annex III. This assessment addresses key Article requirements:
 - **Article 9 (Risk Management):** Documented risk identification and mitigation across all assessment phases
 - **Article 10 (Training Data):** Identified dataset imbalance and demographic representation gaps
@@ -151,7 +151,7 @@ Full framework mapping across GOVERN, MAP, MEASURE, and MANAGE functions as docu
 
 1. **Do Not Deploy Without Bias Mitigation** — Baseline model TPR disparities across racial groups are unacceptable for any regulated deployment context. Re-weighting or threshold calibration must be applied and validated before production use.
 
-2. **Implement Adversarial Robustness Testing as Standard Practice** — The 55.5 percentage point accuracy drop under FGSM attack demonstrates that standard accuracy metrics are insufficient for security-critical deployments. Adversarial testing should be required pre-deployment and after any model update.
+2. **Implement Adversarial Robustness Testing as Standard Practice** — The 51 percentage point accuracy drop under FGSM attack demonstrates that standard accuracy metrics are insufficient for security-critical deployments. Adversarial testing should be required pre-deployment and after any model update.
 
 3. **Address Training Data Imbalance** — The White-dominant dataset (42.5%) structurally disadvantages minority group performance. Organizations deploying facial recognition must either rebalance training data or document and disclose demographic performance disparities.
 
@@ -195,7 +195,6 @@ ai-grc-lab/
 │   ├── ai_risk_assessment_template.md
 │   └── ai_governance_policy_template.md
 ├── tools/
-│   ├── ai-sop-agent.html
 │   ├── vendor_ai_governance_questionnaire.md
 │   └── ai_governance_training_materials.md
 └── results/
