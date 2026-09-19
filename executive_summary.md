@@ -34,7 +34,7 @@ The methodology demonstrates a practical implementation of technical AI governan
 ## Critical Findings
 
 ### Finding 1 — Significant Gender Classification Bias
-The baseline model achieves 70% overall accuracy but demonstrates severe performance disparity by gender. Female subjects are correctly classified at a 94.6% recall rate while male subjects are misclassified at a 51.4% rate. This disparity indicates the model has learned demographic shortcuts rather than generalizable classification features, creating unacceptable bias risk in any regulated deployment context.
+The baseline model achieves 65.5% overall accuracy but demonstrates severe performance disparity by gender. Female subjects are correctly classified at a 94.6% recall rate while male subjects are misclassified at a 51.4% rate. This disparity indicates the model has learned demographic shortcuts rather than generalizable classification features, creating unacceptable bias risk in any regulated deployment context.
 
 **Risk Level: High**  
 **Regulatory Implication:** Directly violates EU AI Act Article 10 data governance requirements and NYC Local Law 144 bias audit thresholds for employment AI systems.
@@ -42,7 +42,7 @@ The baseline model achieves 70% overall accuracy but demonstrates severe perform
 ---
 
 ### Finding 2 — Extreme Adversarial Vulnerability
-A targeted Fast Gradient Sign Method (FGSM) attack with perturbation magnitude epsilon=0.1 — producing pixel changes invisible to the human eye — reduced model accuracy from 70% to 14.5%. This 55.5 percentage point degradation represents a critical security failure for any deployment where adversarial manipulation is possible, including law enforcement, access control, and hiring systems.
+A targeted Fast Gradient Sign Method (FGSM) attack with perturbation magnitude epsilon=0.1 — producing pixel changes invisible to the human eye — reduced model accuracy from 65.5% to 14.5%. This 51 percentage point degradation represents a critical security failure for any deployment where adversarial manipulation is possible, including law enforcement, access control, and hiring systems.
 
 **Risk Level: Critical**  
 **Regulatory Implication:** Directly conflicts with EU AI Act Article 15 accuracy and robustness requirements for high-risk AI systems.
@@ -58,7 +58,7 @@ Fairness analysis across five racial categories (White, Black, Asian, Indian, Ot
 ---
 
 ### Finding 4 — Privacy Mechanism Tradeoffs Require Governance Decision
-Differential Privacy implementation reduced model accuracy from 70% to approximately 47% across tested epsilon values (0.1–5.0), representing a 23 percentage point utility cost for privacy guarantees. Federated Learning achieved 77% accuracy while simulating distributed training without centralized data access — demonstrating a more favorable privacy-utility balance for this use case.
+Differential Privacy implementation reduced model accuracy from 65.5% to approximately 47% across tested epsilon values (0.1–5.0), representing an approximately 18 percentage point utility cost for privacy guarantees. Federated Learning achieved 77% accuracy while simulating distributed training without centralized data access — demonstrating a more favorable privacy-utility balance for this use case.
 
 **Risk Level: Medium**  
 **Governance Implication:** Privacy mechanism selection cannot be defaulted — it requires explicit risk-based decision making documented in the AI system's risk management plan.
@@ -68,7 +68,7 @@ Differential Privacy implementation reduced model accuracy from 70% to approxima
 ## Mitigation Results
 
 ### Adversarial Training
-Training the model on a mixed dataset of clean and FGSM-generated adversarial examples produced 100% accuracy on adversarial test images. Clean accuracy decreased to 57.5%, confirming the robustness-utility tradeoff that governance frameworks must explicitly address.
+Training the model on a mixed dataset of clean and FGSM-generated adversarial examples recovered accuracy to 100% against that FGSM attack (epsilon=0.1), while clean accuracy decreased to 57.5%. This reflects robustness to one known attack type rather than general robustness — accuracy against unseen attacks (PGD, Carlini-Wagner) was not tested and would likely be lower — and confirms the robustness-utility tradeoff governance frameworks must explicitly address.
 
 ### Bias Mitigation — Re-weighting
 Assigning higher sample weights to underrepresented racial groups during training reduced TPR disparity across demographic groups. This approach improves fairness without requiring post-deployment intervention.
